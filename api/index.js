@@ -1,9 +1,9 @@
 const express=require("express")
 
 const app=express()
-const { sequelize, Conversation ,Message }= require('./models')
+const { sequelize, Conversation ,Messages }= require('./models')
 
-
+app.use(express.json())
 app.get('/',(req,res)=>{
     res.send("hello....")
 })

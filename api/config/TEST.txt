@@ -1,0 +1,20 @@
+app.post('/addmsg',async(req,res)=>{
+    try {
+        const data= await Messages.create(req.body)
+        res.json({msg:data})
+    } catch (err) {
+        res.json({err})
+    }
+})
+
+
+app.post('/addconvo',async(req,res)=>{
+    try {
+        const data= await Conversation.create(req.body)
+        res.json({msg:data})
+    } catch (err) {
+        res.json({err})
+    }
+})
+
+

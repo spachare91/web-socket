@@ -9,7 +9,7 @@ module.exports = {
         defaultValue : DataTypes.UUIDV4
       },
       members: {
-        type: DataTypes.ARRAY(DataTypes.TEXT)
+        type: DataTypes.ARRAY(DataTypes.STRING)
       },
       createdAt: {
         allowNull: false,

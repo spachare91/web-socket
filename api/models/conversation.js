@@ -14,11 +14,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Conversation.init({
-    members: DataTypes.ARRAY(DataTypes.TEXT)
+    convoid: {
+      allowNull: false,
+      primaryKey: true,
+      type:DataTypes.UUID,
+      defaultValue : DataTypes.UUIDV4
+    },
+    members: DataTypes.ARRAY(DataTypes.STRING)
   }, {
     sequelize,
     modelName: 'Conversation',
-    tableName:'conversation'
+    tableName:'conversations'
   });
   return Conversation;
 };

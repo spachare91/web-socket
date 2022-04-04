@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Messages.init({
+    messageid: {
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue : DataTypes.UUIDV4
+    },
     conversationId: DataTypes.UUID,
     senderId: DataTypes.UUID,
     message: DataTypes.STRING
