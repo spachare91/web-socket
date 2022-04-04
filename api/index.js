@@ -23,9 +23,10 @@ app.post('/addmsg',async(req,res)=>{
     }
 })
 
-// add convo
+// add convo..cahnges..
 app.post('/addconvo',async(req,res)=>{
     try {
+        
         const data= await Conversation.create(req.body)
         res.json({msg:data})
     } catch (err) {
@@ -60,6 +61,12 @@ app.get("/:conversationId", async (req, res) => {
       res.status(500).json(err);
     }
 });
+
+// delete msgs....
+
+// delete convosation...
+
+//
 
 
 app.listen(5000, async()=>{
