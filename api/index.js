@@ -5,7 +5,7 @@ const { sequelize, Conversation ,Message }= require('./models')
 
 
 app.get('/',(req,res)=>{
-    req.send("hello....")
+    res.send("hello....")
 })
 
 app.listen(5000, async()=>{
