@@ -1,33 +1,33 @@
 'use strict';
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Messages', {
-      id: {
+  async up(queryInterface, DataTypes) {
+    await queryInterface.createTable('messages', {
+      messageid: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: DataTypes.UUID,
+        defaultValue : DataTypes.UUIDV4
       },
       conversationId: {
-        type: Sequelize.STRING
+        type: DataTypes.UUID
       },
       senderId: {
-        type: Sequelize.STRING
+        type: DataTypes.UUID
       },
       message: {
-        type: Sequelize.STRING
+        type: DataTypes.STRING
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: DataTypes.DATE
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: DataTypes.DATE
       }
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Messages');
+  async down(queryInterface, DataTypes) {
+    await queryInterface.dropTable('messages');
   }
 };

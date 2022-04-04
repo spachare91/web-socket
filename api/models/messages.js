@@ -14,12 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Messages.init({
-    conversationId: DataTypes.STRING,
-    senderId: DataTypes.STRING,
+    conversationId: DataTypes.UUID,
+    senderId: DataTypes.UUID,
     message: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Messages',
+    tableName:'messages'
   });
   return Messages;
 };

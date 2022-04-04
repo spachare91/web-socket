@@ -14,10 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Conversation.init({
-    members: DataTypes.STRING
+    members: DataTypes.ARRAY(DataTypes.TEXT)
   }, {
     sequelize,
     modelName: 'Conversation',
+    tableName:'conversation'
   });
   return Conversation;
 };
