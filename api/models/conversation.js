@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.UUID,
       defaultValue : DataTypes.UUIDV4
     },
-    members: DataTypes.ARRAY(DataTypes.STRING)
+    member: DataTypes.ARRAY(DataTypes.UUID)
   }, {
     sequelize,
     modelName: 'Conversation',

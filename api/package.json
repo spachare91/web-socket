@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.3",
     "nodemon": "^2.0.15",
     "pg": "^8.7.3",
@@ -8,6 +9,6 @@
     "sequelize-cli": "^6.4.1"
   },
   "scripts": {
-    "start":"nodemon index.js"
+    "start": "nodemon index.js"
   }
 }

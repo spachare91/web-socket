@@ -6,30 +6,43 @@ const io=require('socket.io')(3000,{
     }
 })
 
-//this function in called whenever a client connects
-// ON for server means something is comming from client
-// EMIT means to send to all clients
+let users = [];
+
+const addUser = (userId, socketId) => {
+  !users.some((user) => user.userId === userId) &&
+    users.push({ userId, socketId });
+};
+
+const removeUser = (socketId) => {
+  users = users.filter((user) => user.socketId !== socketId);
+};
+
+const getUser = (userId) => {
+  return users.find((user) => user.userId === userId);
+};
+
 
 io.on('connection',socket=>{
+  
     console.log(`connected with id : ${socket.id}`);
+
+    //send message
     socket.on("send-message",(message,room)=>{
-        // send message comming from an cient...to other clients
-        if(room===''){
-            socket.broadcast.emit("receive-message",message)
-        }else{
-            // useful for 1-1 communication....
-            socket.to(room).emit("receive-message",message)
-        }
+      socket.to(room).emit("receive-message",message)
         
-        //console.log(message)
     })
 
-    socket.on("join-room",(room,cb)=>{
-        // joining to a particuar room....
-        //one use can join mulitple rooms...
-        socket.join(room)
-        // send from client to server & server back to client......
-        cb(`JOined room :${room}`)
+    //take userId and socketId from user
+    socket.on("addUser", (userId) => {
+    addUser(userId, socket.id);
+    io.emit("getUsers", users);
+     });
 
-    })
+    //when disconnect
+    socket.on("disconnect", () => {
+    console.log("a user disconnected!");
+    removeUser(socket.id);
+    io.emit("getUsers", users);
+     })
+
 })
