@@ -26,9 +26,21 @@ app.post('/addmsg',async(req,res)=>{
 // add convo..cahnges..
 app.post('/addconvo',async(req,res)=>{
     try {
-        
-        const data= await Conversation.create(req.body)
-        res.json({msg:data})
+        const checkdata = await Conversation.findAll();
+        var check = 0;
+        for(let i = 0; i < checkdata.length; i++){
+          if(checkdata[i].members[0] == req.body.members[0]){
+            check = 1;
+            break;
+          }
+        }
+        if(check == 1){
+          res.json({msg : "the user is already present"});
+        }
+        else{
+          const data= await Conversation.create(req.body)
+          res.json({msg:data})
+        }
     } catch (err) {
       console.log(err)
         res.json({err})
@@ -63,6 +75,7 @@ app.get("/:conversationId", async (req, res) => {
 });
 
 // delete msgs....
+
 
 // delete convosation...
 
