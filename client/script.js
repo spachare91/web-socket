@@ -17,6 +17,7 @@ socket.on('connect',()=>{
    // adding user id
     socket.emit("addUser",userid)
     socket.on("getUsers", (users) => {
+        
         if(userid!="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"){
             console.log("user is connected...");
             online_users=users.filter((user)=>{
@@ -85,18 +86,51 @@ socket.on("receive-message",message=>{
 form.addEventListener("submit",e=>{
     e.preventDefault()
     const message = messageInput.value
-    const room=roomInput.value
 
     if(message=== "") return 
     displayMessage(message)
-    if(online_users.length==0){
-        console.log("admin is offline..save msg");
+
+    if(userid!="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"){
+        //console.log("user is connected...");
+        if(online_users.length==0){
+            console.log("admin is offline..just save msg");
+        }else{
+            console.log("admin is online..& save msg too");
+            console.log("userid: ",online_users[0].userId);
+            console.log("socketId: ",online_users[0].socketId);
+            let room=online_users[0].socketId
+            socket.emit("send-message",message,room)
+        }
+
+    }
+    else{
+        //console.log("admin is connected...");
+        
+        //this we will get from frontend when clicked on user to chat...
+    const receiver_id="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d260"
+    let req_user=[]
+    req_user=online_users.filter((user)=>{
+        return user.userId==receiver_id
+    })
+
+    if(req_user.length==0){
+        console.log("user is offline..just save msg");
     }else{
-        console.log("admin is online..save msg");
-        console.log("userid: ",online_users[0].userId);
-        console.log("socketId: ",online_users[0].socketId);
+        console.log("user is online.. & save msg too");
+
+
+        console.log("userid: ",req_user[0].userId);
+        console.log("socketId: ",req_user[0].socketId);
+        let room=req_user[0].socketId
         socket.emit("send-message",message,room)
     }
+
+    }
+
+
+
+
+
 
     let data={
         "conversationId":convoid,
@@ -124,10 +158,6 @@ form.addEventListener("submit",e=>{
     messageInput.value=""
 
 
-})
-
-joinRoomButton.addEventListener("click",()=>{
-    const room=roomInput.value
 })
 
 function displayMessage(message){

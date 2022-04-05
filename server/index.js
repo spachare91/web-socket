@@ -9,7 +9,7 @@ const io=require('socket.io')(3000,{
 let users = [];
 // dummy admin....adn user
   //users.push({userId:"d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261",socketId:"z83qHl9XBgG80mdpAAAB"})
-  users.push({userId:"d51d4a56-4ed1-45ce-b4e9-1e57a2e2d259",socketId:"9HfX1GOKt1thnuLHAAAB"})
+ // users.push({userId:"d51d4a56-4ed1-45ce-b4e9-1e57a2e2d259",socketId:"9HfX1GOKt1thnuLHAAAB"})
   //users.push({userId:"d51d4a56-4ed1-45ce-b4e9-1e57a2e2d260",socketId:"9HfX1GOKt1thnuLHAAAB"})
 
 const addUser = (userId, socketId) => {

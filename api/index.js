@@ -74,13 +74,6 @@ app.get("/:conversationId", async (req, res) => {
     }
 });
 
-// delete msgs....
-
-
-// delete convosation...
-
-//
-
 
 app.listen(5000, async()=>{
 
