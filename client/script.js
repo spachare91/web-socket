@@ -1,14 +1,19 @@
 // functio to get individua; io
 import {io} from 'socket.io-client'
 
-const joinRoomButton  = document.getElementById("room-button")
 const messageInput  = document.getElementById("message-input")
-const roomInput  = document.getElementById("room-input")
 const form = document.getElementById("form")
-const userid="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d260"
+
+
+const role="admin"
+const userid="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"
 const convoid="92c1410b-75ad-428e-bf74-08f62fb84872"
+
+
 // connect wtih server.....
 const socket=io('http://localhost:3000')
+
+
 let online_users=[]
 // creating event which runs when we connect {listeninng event comming down from server... "ON"}
 socket.on('connect',()=>{
@@ -18,16 +23,18 @@ socket.on('connect',()=>{
     socket.emit("addUser",userid)
     socket.on("getUsers", (users) => {
         
-        if(userid!="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"){
+        if(role!=="admin"){
+
             console.log("user is connected...");
             online_users=users.filter((user)=>{
+                // here it will be admin id...
                 return user.userId=="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"
             })
             console.log(online_users);
         }
         else{
             console.log("admin is connected...");
-            //console.log("online users:"+online_users);
+            // get all online users expcet admin..
             online_users=users.filter((user)=>{
                 return user.userId!="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"
             })
@@ -79,9 +86,6 @@ socket.on("receive-message",message=>{
     displayMessage(message)
 })
 
-// FOR CLIENT SIDE... ON MEANS COMING FROM SERVER
-// EMIT MEANS SENDING BACK TO SERVER....
-// socket.emit("custom-event",)
 
 form.addEventListener("submit",e=>{
     e.preventDefault()
@@ -90,7 +94,7 @@ form.addEventListener("submit",e=>{
     if(message=== "") return 
     displayMessage(message)
 
-    if(userid!="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"){
+    if(role!=="admin"){
         //console.log("user is connected...");
         if(online_users.length==0){
             console.log("admin is offline..just save msg");
@@ -107,36 +111,42 @@ form.addEventListener("submit",e=>{
         //console.log("admin is connected...");
         
         //this we will get from frontend when clicked on user to chat...
-    const receiver_id="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d260"
-    let req_user=[]
-    req_user=online_users.filter((user)=>{
-        return user.userId==receiver_id
-    })
+        const receiver_id="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d260"
+        let req_user=[]
+        req_user=online_users.filter((user)=>{
+            return user.userId==receiver_id
+        })
 
-    if(req_user.length==0){
-        console.log("user is offline..just save msg");
+        if(req_user.length==0){
+            console.log("user is offline..just save msg");
+        }else{
+            console.log("user is online.. & save msg too");
+            console.log("userid: ",req_user[0].userId);
+            console.log("socketId: ",req_user[0].socketId);
+            let room=req_user[0].socketId
+            socket.emit("send-message",message,room)
+        }
+
+    }
+
+
+
+    let data=null
+    if(role=="admin"){
+         data={
+            "conversationId":convoid,
+            "senderId":"admin",
+            "message":message
+        }
     }else{
-        console.log("user is online.. & save msg too");
-
-
-        console.log("userid: ",req_user[0].userId);
-        console.log("socketId: ",req_user[0].socketId);
-        let room=req_user[0].socketId
-        socket.emit("send-message",message,room)
-    }
-
+        data={
+            "conversationId":convoid,
+            "senderId":userid,
+            "message":message
+        }
     }
 
 
-
-
-
-
-    let data={
-        "conversationId":convoid,
-        "senderId":userid,
-        "message":message
-    }
 
 
     fetch('http://localhost:5000/addmsg', {
