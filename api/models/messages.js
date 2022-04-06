@@ -20,9 +20,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue : DataTypes.UUIDV4
     },
-    conversationId: DataTypes.UUID,
-    senderId: DataTypes.UUID,
-    message: DataTypes.STRING
+    conversationId:{
+      type : DataTypes.UUID,
+      allowNull : false
+    },
+    senderId : {
+      type : DataTypes.STRING,
+      allowNull : false
+    },
+    message: {
+      type : DataTypes.STRING,
+      allowNull : false
+    }
   }, {
     sequelize,
     modelName: 'Messages',

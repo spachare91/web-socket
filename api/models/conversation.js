@@ -20,7 +20,14 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.UUID,
       defaultValue : DataTypes.UUIDV4
     },
-    member: DataTypes.ARRAY(DataTypes.UUID)
+    member:{
+      type : DataTypes.UUID,
+      allowNull : false
+    }, 
+    role : {
+      type : DataTypes.STRING,
+      allowNull : false
+    }
   }, {
     sequelize,
     modelName: 'Conversation',

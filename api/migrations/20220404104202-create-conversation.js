@@ -8,9 +8,13 @@ module.exports = {
         type:DataTypes.UUID,
         defaultValue : DataTypes.UUIDV4
       },
-      member: {
-        type: DataTypes.ARRAY(DataTypes.UUID),
-        allowNull: false
+      member:{
+        type : DataTypes.UUID,
+        allowNull : false
+      }, 
+      role : {
+        type : DataTypes.STRING,
+        allowNull : false
       },
       createdAt: {
         allowNull: false,

@@ -8,14 +8,17 @@ module.exports = {
         type: DataTypes.UUID,
         defaultValue : DataTypes.UUIDV4
       },
-      conversationId: {
-        type: DataTypes.UUID
+      conversationId:{
+        type : DataTypes.UUID,
+        allowNull : false
       },
-      senderId: {
-        type: DataTypes.UUID
+      senderId : {
+        type : DataTypes.STRING,
+        allowNull : false
       },
       message: {
-        type: DataTypes.STRING
+        type : DataTypes.STRING,
+        allowNull : false
       },
       createdAt: {
         allowNull: false,
