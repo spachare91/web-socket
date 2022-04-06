@@ -6,8 +6,9 @@ const form = document.getElementById("form")
 
 
 const role="admin"
+const adminid="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"
 const userid="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"
-const convoid="92c1410b-75ad-428e-bf74-08f62fb84872"
+const convoid="f98173c9-9c5f-49c7-b074-b2508b3d0c52"
 
 
 // connect wtih server.....
@@ -28,7 +29,7 @@ socket.on('connect',()=>{
             console.log("user is connected...");
             online_users=users.filter((user)=>{
                 // here it will be admin id...
-                return user.userId=="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"
+                return user.userId==adminid
             })
             console.log(online_users);
         }
@@ -36,7 +37,7 @@ socket.on('connect',()=>{
             console.log("admin is connected...");
             // get all online users expcet admin..
             online_users=users.filter((user)=>{
-                return user.userId!="d51d4a56-4ed1-45ce-b4e9-1e57a2e2d261"
+                return user.userId!=adminid
             })
             console.log(online_users);
         }
@@ -60,23 +61,23 @@ socket.on('connect',()=>{
     console.error('Error:', error);
     });
 
-    // show all users
-    // fetch('http://localhost:5000/getusers', {
-    //     method: 'GET', // or 'PUT'
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //     console.log('Success:', data);
-    //     for(let i=0;i<data.length;i++){
-    //         displayMessage(data[i].member[0])
-    //     }
-    //     })
-    //     .catch((error) => {
-    //     console.error('Error:', error);
-    //     });
+    //show all users
+    fetch('http://localhost:5000/getusers', {
+        method: 'GET', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data);
+        for(let i=0;i<data.length;i++){
+            displayMessage(data[i].member)
+        }
+        })
+        .catch((error) => {
+        console.error('Error:', error);
+        });
 
 
 

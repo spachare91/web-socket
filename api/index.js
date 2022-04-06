@@ -1,13 +1,12 @@
 const express=require("express")
-
 const app=express()
 const { sequelize, Conversation ,Messages }= require('./models')
 const cors=require('cors')
 
 app.use(cors())
-
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
+
 app.get('/',(req,res)=>{
     res.send("hello....")
 })
@@ -26,15 +25,11 @@ app.post('/addmsg',async(req,res)=>{
 // add convo..cahnges..
 app.post('/addconvo',async(req,res)=>{
     try {
-        const checkdata = await Conversation.findAll();
-        var check = 0;
-        for(let i = 0; i < checkdata.length; i++){
-          if(checkdata[i].members[0] == req.body.members[0]){
-            check = 1;
-            break;
-          }
-        }
-        if(check == 1){
+        const checkdata = await Conversation.findOne({
+          where:{member:req.body.member}
+        });
+        
+        if(checkdata){
           res.json({msg : "the user is already present"});
         }
         else{
