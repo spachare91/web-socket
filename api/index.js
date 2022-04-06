@@ -2,6 +2,7 @@ const express=require("express")
 const app=express()
 const { sequelize, Conversation ,Messages }= require('./models')
 const cors=require('cors')
+const messages = require("./models/messages")
 
 app.use(cors())
 app.use(express.urlencoded({extended:false}))
@@ -18,6 +19,7 @@ app.post('/addmsg',async(req,res)=>{
         console.log(req.body)
         res.json({msg:data})
     } catch (err) {
+      console.log(err);
         res.json({err})
     }
 })
@@ -46,7 +48,9 @@ app.post('/addconvo',async(req,res)=>{
 //get all users....
 app.get("/getusers", async (req, res) => {
     try {
-      const conversation = await Conversation.findAll();
+      const conversation = await Conversation.findAll({
+        include:Messages
+      });
       res.status(200).json(conversation);
     } catch (err) {
       res.status(500).json(err);
@@ -59,7 +63,7 @@ app.get("/:conversationId", async (req, res) => {
     try {
       console.log(req.params.conversationId);
       const messages = await Messages.findAll({
-        where:{conversationId: req.params.conversationId},
+        where:{convoid: req.params.conversationId},
       });
       
       res.status(200).json(messages);

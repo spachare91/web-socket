@@ -8,7 +8,7 @@ module.exports = {
         type: DataTypes.UUID,
         defaultValue : DataTypes.UUIDV4
       },
-      conversationId:{
+      convoid:{
         type : DataTypes.UUID,
         allowNull : false
       },

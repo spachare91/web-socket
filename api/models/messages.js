@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Conversation,{foreignKey:'convoid'})
     }
   }
   Messages.init({
@@ -20,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue : DataTypes.UUIDV4
     },
-    conversationId:{
+    convoid:{
       type : DataTypes.UUID,
       allowNull : false
     },
